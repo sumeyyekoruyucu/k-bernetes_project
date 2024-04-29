@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: webserver-deployment
+  name: webserver-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webserver-deployment
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webserver-deployment
+    spec:
+      containers:
+      - image: techproawsdevopsteam/web-server:v1
+        name: web-server
+        ports:
+        - containerPort: 80
+        resources: {}
+        envFrom:
+          - configMapRef:
+              name: server-config
+        env:
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: MYSQL_PASSWORD
+                name: mysecret
+status: {}
